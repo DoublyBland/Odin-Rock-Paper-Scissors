@@ -25,6 +25,9 @@ function getRandom(){
 function playerPlay(){
     let playerChoice = prompt("Please select: Rock, Paper, or Scissors?", "No choice");
     playerChoice = formatInput(playerChoice);
+    if (playerChoice != "Rock" && playerChoice != "Paper" && playerChoice != "Scissors"){//edit
+        playerChoice = playerPlay();
+    }
     return playerChoice;
 }
 
@@ -40,7 +43,30 @@ function formatInput(input){
 function playRound(){
     let computerSelection = computerPlay();
     let playerSelection = playerPlay();
+    decideWinner(playerSelection, computerSelection);
     console.log(`${computerSelection} vs ${playerSelection}`);
+}
+
+function decideWinner(playerChoice, computerChoice){
+    let message;
+    if playerChoice === computerChoice {
+        message = `${playerChoice} = ${computerChoice}. It's a tie!`;
+    }
+    else {
+    switch (playerChoice){
+        case "Rock":
+            if computerChoice = "Paper"{
+                message
+            }
+            break;
+        case "Paper":
+            break;
+        case "Scissors":
+            break;
+    }
+}
+
+    return message;
 }
 
 playRound();
