@@ -43,30 +43,61 @@ function formatInput(input){
 function playRound(){
     let computerSelection = computerPlay();
     let playerSelection = playerPlay();
-    decideWinner(playerSelection, computerSelection);
-    console.log(`${computerSelection} vs ${playerSelection}`);
+    console.log(decideWinner(playerSelection, computerSelection));
+    //console.log(`${computerSelection} vs ${playerSelection}`);
 }
 
 function decideWinner(playerChoice, computerChoice){
     let message;
-    if playerChoice === computerChoice {
+    let win = 2;
+    if (playerChoice === computerChoice) {
         message = `${playerChoice} = ${computerChoice}. It's a tie!`;
     }
     else {
     switch (playerChoice){
         case "Rock":
-            if computerChoice = "Paper"{
-                message
+            if (computerChoice == "Paper"){
+                win = 0;
+            }
+            else if (computerChoice == "Scissors"){
+                win = 1;
             }
             break;
         case "Paper":
+            if (computerChoice == "Scissors"){
+                win = 0;
+            }
+            else if (computerChoice == "Rock"){
+                win = 1;
+            }
             break;
         case "Scissors":
+            if (computerChoice == "Rock"){
+                win = 0;
+            }
+            else if (computerChoice == "Paper"){
+                win = 1;
+            }
+            break;
+        default:
+            console.log("error");
             break;
     }
 }
-
+    if (win === 1) {
+        message = `${playerChoice} beats ${computerChoice}. You Win!`;
+    }
+    else if (win === 0) {
+        message = `${computerChoice} beats ${playerChoice}. You Lose!`;
+    }
     return message;
 }
 
-playRound();
+function game() {
+    for (let i = 1; i<6; i++){
+        console.log(`Round ${i}:`);
+        playRound();
+    }
+}
+
+game();
