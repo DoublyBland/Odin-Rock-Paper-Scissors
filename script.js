@@ -43,8 +43,11 @@ function formatInput(input){
 function playRound(playerSelection){
     let computerSelection = computerPlay();
     //let playerSelection = playerPlay();
-    console.log(decideWinner(playerSelection, computerSelection));
+    //console.log(decideWinner(playerSelection, computerSelection));
+    const outcome = document.getElementById('outcome');
+    outcome.textContent = decideWinner(playerSelection, computerSelection);
     //console.log(`${computerSelection} vs ${playerSelection}`);
+    return;
 }
 
 function decideWinner(playerChoice, computerChoice){
@@ -52,6 +55,7 @@ function decideWinner(playerChoice, computerChoice){
     let win = 2;
     if (playerChoice === computerChoice) {
         message = `${playerChoice} = ${computerChoice}. It's a tie!`;
+        removeColor();
     }
     else {
     switch (playerChoice){
@@ -86,20 +90,41 @@ function decideWinner(playerChoice, computerChoice){
 }
     if (win === 1) {
         message = `${playerChoice} beats ${computerChoice}. You Win!`;
+        addPoint('player', 'computer');
     }
     else if (win === 0) {
         message = `${computerChoice} beats ${playerChoice}. You Lose!`;
+        addPoint('computer', 'player');
     }
     return message;
 }
 
-function game() {
-    for (let i = 1; i<6; i++){
-        console.log(`Round ${i}:`);
-        playRound();
-    }
+function addPoint(winner, loser) {
+        const element = winner + "Score";
+        const currentScore = document.getElementById(element).textContent;
+        let newScore = parseInt(currentScore) + 1;
+        document.getElementById(element).textContent = newScore;
+        addColor(winner, loser);
+
+        return;
 }
 
+function addColor(winner,loser){
+    const elementWin = winner + "Score";
+    const elementLose = loser + "Score";
+    document.getElementById(elementWin).classList.add("winner");
+    document.getElementById(elementWin).classList.remove("loser");
+    document.getElementById(elementLose).classList.add("loser");
+    document.getElementById(elementLose).classList.remove("winner");
+    return;
+}
+function removeColor(){
+    document.getElementById('playerScore').classList.remove('winner','loser');
+    document.getElementById('computerScore').classList.remove('winner','loser');
+}
+
+
+function game() {
 const container = document.getElementById('button-container');
 
 container.addEventListener('click', (e) => {
@@ -108,6 +133,33 @@ container.addEventListener('click', (e) => {
         return;
     }
     const selection = e.target.textContent;
+    let check = startStop();
+if (check == 0 ) {return;}
+else {
     playRound(selection);
-
+    startStop();
+    }
+    return;
 })
+}
+
+function startStop() {
+    const playerScore = document.getElementById('playerScore').textContent;
+    const computerScore = document.getElementById('computerScore').textContent;
+    if (playerScore == 5 || computerScore == 5){
+        if (playerScore ==5){
+            const outcome = document.getElementById('outcome');
+            outcome.textContent = "Congratulations! You've won the game!"
+        }
+        else {
+            const outcome = document.getElementById('outcome');
+            outcome.textContent = "Better luck next time. Computer wins!"
+        }
+    }
+    else {
+        return 1;
+    }
+    return 0;
+}
+
+game();
