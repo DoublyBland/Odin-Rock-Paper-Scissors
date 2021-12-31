@@ -40,9 +40,9 @@ function formatInput(input){
 }
 
 
-function playRound(){
+function playRound(playerSelection){
     let computerSelection = computerPlay();
-    let playerSelection = playerPlay();
+    //let playerSelection = playerPlay();
     console.log(decideWinner(playerSelection, computerSelection));
     //console.log(`${computerSelection} vs ${playerSelection}`);
 }
@@ -100,4 +100,14 @@ function game() {
     }
 }
 
-game();
+const container = document.getElementById('button-container');
+
+container.addEventListener('click', (e) => {
+    const isButton = event.target.nodeName === 'BUTTON';
+    if (!isButton){
+        return;
+    }
+    const selection = e.target.textContent;
+    playRound(selection);
+
+})
